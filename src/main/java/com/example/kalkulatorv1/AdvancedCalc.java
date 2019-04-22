@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 
+public class AdvancedCalc extends AppCompatActivity {
 
-public class SimpleCalc extends AppCompatActivity{
     private EditText inputText;
     private Button btn_0;
     private Button btn_1;
@@ -32,6 +32,14 @@ public class SimpleCalc extends AppCompatActivity{
     private Button btn_add;
     private Button btn_sub;
     private Button btn_equals;
+    private Button btn_sin;
+    private Button btn_cos;
+    private Button btn_tan;
+    private Button btn_ln;
+    private Button btn_sqrt;
+    private Button btn_xpower;
+    private Button btn_xpowy;
+    private Button btn_log;
     float wynik = 0;
     float wartosc = 0;
     float  poprzedni_wynik = 0;
@@ -82,10 +90,6 @@ public class SimpleCalc extends AppCompatActivity{
                 // ignore
             }
         }
-
-
-
-
 
 
         btn_0.setOnClickListener(new View.OnClickListener() {
