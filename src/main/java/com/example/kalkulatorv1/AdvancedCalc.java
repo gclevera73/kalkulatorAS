@@ -40,9 +40,11 @@ public class AdvancedCalc extends AppCompatActivity {
     private Button btn_power;
     private Button btn_xpowy;
     private Button btn_log;
-    float wynik = 0;
-    float wartosc = 0;
-    float  poprzedni_wynik = 0;
+    Double wynik = 0.0;
+    Double wartosc = 0.0;
+    Double  poprzedni_wynik = 0.0;
+    Double  degrees = 0.0;
+    Double  radians = 0.0;
     boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
     boolean firstOp = false;
 
@@ -180,8 +182,8 @@ public class AdvancedCalc extends AppCompatActivity {
                 }
                 else
                 {
-                    wartosc = Float.parseFloat(inputText.getText() + "");
-                    int i = Math.round(wartosc);
+                    wartosc = Double.parseDouble(inputText.getText() + "");
+                    long i = Math.round(wartosc);
                     inputText.setText(i + ".");
                 }
             }
@@ -199,7 +201,7 @@ public class AdvancedCalc extends AppCompatActivity {
                 if ((inputText.getText() + "") == ""){
 
                 }else {
-                    wynik = Float.parseFloat(inputText.getText() + "");
+                    wynik = Double.parseDouble(inputText.getText() + "");
                     wynik = wynik * (-1);
                     inputText.setText(wynik + "");
                 }
@@ -215,7 +217,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mAddition = true;
                     inputText.setText(null);
 
@@ -230,7 +232,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mSubtract = true;
                     inputText.setText(null);
 
@@ -246,7 +248,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mMultiplication = true;
                     inputText.setText(null);
 
@@ -261,7 +263,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mDivision = true;
                     inputText.setText(null);
 
@@ -297,12 +299,31 @@ public class AdvancedCalc extends AppCompatActivity {
                 if ((inputText.getText() + "") == ""){
 
                 }else {
+                    degrees = Double.parseDouble(inputText.getText() + "");
+                    radians = Math.toRadians(degrees);
 
-                    //calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "");
-                    
+                    wynik=Math.sin(radians);
                     inputText.setText(wynik + "");
+                    degrees=0.0;
+                    radians=0.0;
 
+                }
+            }
+        });
+
+        btn_cos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    degrees = Double.parseDouble(inputText.getText() + "");
+                    radians = Math.toRadians(degrees);
+
+                    wynik=Math.cos(radians);
+                    inputText.setText(wynik + "");
+                    degrees=0.0;
+                    radians=0.0;
 
                 }
             }
@@ -315,7 +336,7 @@ public class AdvancedCalc extends AppCompatActivity {
         if ((inputText.getText() + "") == "") {
 
         } else {
-            wartosc = Float.parseFloat(inputText.getText() + "");
+            wartosc = Double.parseDouble(inputText.getText() + "");
 
             if (mAddition == true) {
                 inputText.setText(wynik + wartosc + "");
@@ -354,8 +375,8 @@ public class AdvancedCalc extends AppCompatActivity {
     }
 
     private void clear(){
-        wynik = 0;
-        poprzedni_wynik=0;
+        wynik = 0.0;
+        poprzedni_wynik=0.0;
         inputText.setText("");
     }
 
