@@ -45,6 +45,9 @@ public class AdvancedCalc extends AppCompatActivity {
     Double  poprzedni_wynik = 0.0;
     Double  degrees = 0.0;
     Double  radians = 0.0;
+    Double base = 0.0;
+    Double  L = 0.0;
+    Double  tmp = 0.0;
     boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
     boolean firstOp = false;
 
@@ -329,7 +332,82 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         });
 
+        btn_tan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
 
+                }else {
+                    degrees = Double.parseDouble(inputText.getText() + "");
+                    radians = Math.toRadians(degrees);
+
+                    wynik=Math.tan(radians);
+                    inputText.setText(wynik + "");
+                    degrees=0.0;
+                    radians=0.0;
+
+                }
+            }
+        });
+
+        btn_ln.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    L = Double.parseDouble(inputText.getText() + "");
+
+
+                    wynik=Math.log(L);
+                    inputText.setText(wynik + "");
+                    L=0.0;
+
+                }
+            }
+        });
+
+        btn_sqrt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    base = Double.parseDouble(inputText.getText() + "");
+                    wynik=Math.sqrt(base);
+                    inputText.setText(wynik + "");
+                    base=0.0;
+                }
+            }
+        });
+
+        btn_power.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    base = Double.parseDouble(inputText.getText() + "");
+                    wynik=Math.pow(base, 2);
+                    inputText.setText(wynik + "");
+                    base=0.0;
+                }
+            }
+        });
+
+        btn_xpowy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    calculate();
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
+                    mXpowy = true;
+                    inputText.setText(null);
+                }
+            }
+        });
     }
 
     private void calculate(){
@@ -365,6 +443,11 @@ public class AdvancedCalc extends AppCompatActivity {
                 }
 
             }
+
+            if (mXpowy == true) {
+                inputText.setText(Math.pow(wynik, wartosc) + "");
+                clean_operations();
+            }
         }
     }
 
@@ -391,6 +474,7 @@ public class AdvancedCalc extends AppCompatActivity {
         mMultiplication=false;
         mDivision=false;
         mSubtract=false;
+        mXpowy=false;
     }
 
 }
