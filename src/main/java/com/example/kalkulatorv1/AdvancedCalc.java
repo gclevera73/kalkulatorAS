@@ -37,13 +37,13 @@ public class AdvancedCalc extends AppCompatActivity {
     private Button btn_tan;
     private Button btn_ln;
     private Button btn_sqrt;
-    private Button btn_xpower;
+    private Button btn_power;
     private Button btn_xpowy;
     private Button btn_log;
     float wynik = 0;
     float wartosc = 0;
     float  poprzedni_wynik = 0;
-    boolean mAddition, mSubtract, mMultiplication, mDivision, nextClick ;
+    boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
     boolean firstOp = false;
 
 
@@ -68,14 +68,21 @@ public class AdvancedCalc extends AppCompatActivity {
         this.btn_add=findViewById(R.id.btn_add);
         this.btn_sub=findViewById(R.id.btn_sub);
         this.btn_equals=findViewById(R.id.btn_equals);
-
+        this.btn_sin=findViewById(R.id.btn_sin);
+        this.btn_cos=findViewById(R.id.btn_cos);
+        this.btn_tan=findViewById(R.id.btn_tan);
+        this.btn_ln=findViewById(R.id.btn_ln);
+        this.btn_sqrt=findViewById(R.id.btn_sqrt);
+        this.btn_power=findViewById(R.id.btn_power);
+        this.btn_xpowy=findViewById(R.id.btn_xpowy);
+        this.btn_log=findViewById(R.id.btn_log);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_simple_calc);
+        setContentView(R.layout.activity_advanced_calc);
         initializeButtons();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             inputText.setShowSoftInputOnFocus(false);//wyłączenie klawiatury
@@ -284,6 +291,23 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         });
 
+        btn_sin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+
+                    //calculate();
+                    wynik = Float.parseFloat(inputText.getText() + "");
+                    
+                    inputText.setText(wynik + "");
+
+
+                }
+            }
+        });
+
 
     }
 
@@ -308,6 +332,7 @@ public class AdvancedCalc extends AppCompatActivity {
                 inputText.setText(wynik * wartosc + "");
                 clean_operations();
             }
+
 
             if (mDivision == true) {
                 if(wartosc == 0){
