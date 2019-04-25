@@ -13,33 +13,8 @@ import java.lang.reflect.Method;
 public class AdvancedCalc extends AppCompatActivity {
 
     private EditText inputText;
-    private Button btn_0;
-    private Button btn_1;
-    private Button btn_2;
-    private Button btn_3;
-    private Button btn_4;
-    private Button btn_5;
-    private Button btn_6;
-    private Button btn_7;
-    private Button btn_8;
-    private Button btn_9;
-    private Button btn_dot;
-    private Button btn_c;
-    private Button btn_bksp;
-    private Button btn_pm;
-    private Button btn_mul;
-    private Button btn_div;
-    private Button btn_add;
-    private Button btn_sub;
-    private Button btn_equals;
-    private Button btn_sin;
-    private Button btn_cos;
-    private Button btn_tan;
-    private Button btn_ln;
-    private Button btn_sqrt;
-    private Button btn_power;
-    private Button btn_xpowy;
-    private Button btn_log;
+    private Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9;
+    private Button btn_dot, btn_c, btn_bksp, btn_pm, btn_mul, btn_div, btn_add, btn_sub, btn_equals, btn_sin, btn_cos, btn_tan, btn_ln, btn_sqrt, btn_power, btn_xpowy, btn_log;
     Double wynik = 0.0;
     Double wartosc = 0.0;
     Double  poprzedni_wynik = 0.0;
@@ -49,7 +24,6 @@ public class AdvancedCalc extends AppCompatActivity {
     Double  L = 0.0;
     Double  tmp = 0.0;
     boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
-    boolean firstOp = false;
 
 
     private void initializeButtons(){
@@ -83,74 +57,65 @@ public class AdvancedCalc extends AppCompatActivity {
         this.btn_log=findViewById(R.id.btn_log);
     }
 
-    protected void createButtons(){
+    protected void ListenForButtons(){
+
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"0");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"0");
             }
         });
 
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"1");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"1");
             }
         });
 
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"2");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"2");
             }
         });
 
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"3");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"3");
             }
         });
 
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"4");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"4");
             }
         });
 
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"5");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"5");
             }
         });
 
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"6");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"6");
             }
         });
 
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"7");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"7");
             }
         });
 
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"8");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"8");
             }
         });
 
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"9");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"9");
             }
         });
 
@@ -171,11 +136,6 @@ public class AdvancedCalc extends AppCompatActivity {
                 }
             }
         });
-
-
-
-//   ||||||||||||||||||||||  FUNKCYJNE |||||||||||||||||||||||||||| ///
-
 
         btn_pm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -289,7 +249,6 @@ public class AdvancedCalc extends AppCompatActivity {
                     inputText.setText(wynik + "");
                     degrees=0.0;
                     radians=0.0;
-
                 }
             }
         });
@@ -307,7 +266,6 @@ public class AdvancedCalc extends AppCompatActivity {
                     inputText.setText(wynik + "");
                     degrees=0.0;
                     radians=0.0;
-
                 }
             }
         });
@@ -325,7 +283,6 @@ public class AdvancedCalc extends AppCompatActivity {
                     inputText.setText(wynik + "");
                     degrees=0.0;
                     radians=0.0;
-
                 }
             }
         });
@@ -337,8 +294,6 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     L = Double.parseDouble(inputText.getText() + "");
-
-
                     wynik=Math.log(L);
                     inputText.setText(wynik + "");
                     L=0.0;
@@ -410,21 +365,31 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         }
 
-        createButtons();
+        ListenForButtons();
+
+        if (savedInstanceState == null) {
+            this.wartosc=0.0;
+            this.poprzedni_wynik=0.0;
+            this.wartosc=0.0;
+        } else {
+            this.mAddition=savedInstanceState.getBoolean("mAddition");
+            this.mSubtract=savedInstanceState.getBoolean("mSubtract");
+            this.mMultiplication=savedInstanceState.getBoolean("mMultiplication");
+            this.mDivision=savedInstanceState.getBoolean("mDivision");
+            this.mXpowy=savedInstanceState.getBoolean("mXpowy");
+            this.wynik=savedInstanceState.getDouble("wynik");
+            this.poprzedni_wynik=savedInstanceState.getDouble("poprzedni_wynik");
+            this.wartosc=savedInstanceState.getDouble("wartosc");
+        }
+
 
     }
-
-
-
-
-
 
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
 
         super.onSaveInstanceState(savedInstanceState);
-
         savedInstanceState.putBoolean("mAddition", mAddition);
         savedInstanceState.putBoolean("mSubtract", mSubtract);
         savedInstanceState.putBoolean("mDivision", mDivision);
@@ -488,11 +453,9 @@ public class AdvancedCalc extends AppCompatActivity {
         inputText.setText("");
     }
 
-
     private String getinput(){
         return this.inputText.getText().toString();
     }
-
 
     public void clean_operations(){
         mAddition=false;
