@@ -25,7 +25,7 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Aplikacja została napisana na w ramach przedmiotu Projektowanie apkikacji mobilnych"
+            android:text="Aplikacja została napisana w ramach przedmiotu Projektowanie Aplikacji Mobilnych"
             android:textAlignment="center" />
 
         <TextView

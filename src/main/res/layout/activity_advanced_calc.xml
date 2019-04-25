@@ -112,8 +112,7 @@
                 android:background="@android:color/darker_gray"
                 android:text="ln"
                 android:textAllCaps="false"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -160,8 +159,7 @@
                 android:background="@android:color/darker_gray"
                 android:text="log"
                 android:textAllCaps="false"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="24sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

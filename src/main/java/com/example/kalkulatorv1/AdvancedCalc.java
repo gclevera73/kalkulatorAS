@@ -1,6 +1,6 @@
 package com.example.kalkulatorv1;
 
-import android.os.Build;
+
 import java.text.DecimalFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.annotation.NonNull;
-import java.lang.reflect.Method;
+
 
 public class AdvancedCalc extends AppCompatActivity {
 
@@ -23,10 +23,8 @@ public class AdvancedCalc extends AppCompatActivity {
     Double  radians = 0.0;
     Double base = 0.0;
     Double  L = 0.0;
-    Double  tmp = 0.0;
     DecimalFormat trygonometryczneFormat = new DecimalFormat("#.######");
-    DecimalFormat formatWyswietlania = new DecimalFormat("#.########");
-    boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
+    boolean mAddition, mSubtract, mMultiplication, mDivision, mXpowy;
     String wynikZEkranu;
 
     private void initializeButtons(){
@@ -315,10 +313,35 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     L = Double.parseDouble(inputText.getText() + "");
-                    wynik=Math.log(L);
-                    inputText.setText(wynik + "");
-                    L=0.0;
+                    if(L <= 0){
+                        Toast.makeText(getApplicationContext(), "Sorry ale z tego nie policze :(" , Toast.LENGTH_LONG).show();
+                        clear();
+                        L=0.0;
+                    }else{
+                        wynik=Math.log(L);
+                        inputText.setText(wynik + "");
+                        L=0.0;
+                    }
+                }
+            }
+        });
 
+        btn_log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((inputText.getText() + "") == ""){
+
+                }else {
+                    L = Double.parseDouble(inputText.getText() + "");
+                    if(L <= 0){
+                        Toast.makeText(getApplicationContext(), "Sorry ale z tego nie policze :(" , Toast.LENGTH_LONG).show();
+                        clear();
+                        L=0.0;
+                    }else{
+                        wynik=Math.log10(L);
+                        inputText.setText(wynik + "");
+                        L=0.0;
+                    }
                 }
             }
         });
@@ -330,9 +353,16 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     base = Double.parseDouble(inputText.getText() + "");
-                    wynik=Math.sqrt(base);
-                    inputText.setText(wynik + "");
-                    base=0.0;
+
+                    if(base < 0){
+                        Toast.makeText(getApplicationContext(), "Sorry ale z ujemnej nie policze :(" , Toast.LENGTH_LONG).show();
+                        clear();
+                        base=0.0;
+                    }else{
+                        wynik=Math.sqrt(base);
+                        inputText.setText(wynik + "");
+                        base=0.0;
+                    }
                 }
             }
         });
