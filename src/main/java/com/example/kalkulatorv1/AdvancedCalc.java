@@ -151,19 +151,22 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         });
 
-
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mSubtract==true || mMultiplication==true || mDivision == true || mXpowy==true){
+                    clean_operations();
+                    mAddition=true;
+                    calculate();
+                }
+
+                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mAddition = true;
                     inputText.setText(null);
-
                 }
             }
         });
@@ -171,7 +174,12 @@ public class AdvancedCalc extends AppCompatActivity {
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mMultiplication==true || mDivision == true || mXpowy==true){
+                    clean_operations();
+                    mSubtract=true;
+                    calculate();
+                }
+               else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
@@ -183,11 +191,16 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         });
 
-
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mSubtract==true || mDivision == true || mXpowy==true){
+                    clean_operations();
+                    mMultiplication=true;
+                    calculate();
+                }
+
+                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
@@ -202,7 +215,11 @@ public class AdvancedCalc extends AppCompatActivity {
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mMultiplication==true || mSubtract == true || mXpowy==true){
+                    clean_operations();
+                    mDivision=true;
+                    calculate();
+                }else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
@@ -243,8 +260,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     degrees = Double.parseDouble(inputText.getText() + "");
-                    radians = Math.toRadians(degrees);
-
+                    radians = degrees * Math.PI / 180;
                     wynik=Math.sin(radians);
                     inputText.setText(wynik + "");
                     degrees=0.0;
@@ -365,7 +381,7 @@ public class AdvancedCalc extends AppCompatActivity {
             }
         }
 
-        ListenForButtons();
+       ListenForButtons();
 
         if (savedInstanceState == null) {
             this.wartosc=0.0;
@@ -381,8 +397,6 @@ public class AdvancedCalc extends AppCompatActivity {
             this.poprzedni_wynik=savedInstanceState.getDouble("poprzedni_wynik");
             this.wartosc=savedInstanceState.getDouble("wartosc");
         }
-
-
     }
 
 
