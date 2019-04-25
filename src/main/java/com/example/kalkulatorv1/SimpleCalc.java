@@ -1,7 +1,5 @@
 package com.example.kalkulatorv1;
 
-
-import java.text.DecimalFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,11 +17,6 @@ public class SimpleCalc extends AppCompatActivity {
     Double wynik = 0.0;
     Double wartosc = 0.0;
     Double  poprzedni_wynik = 0.0;
-    Double  degrees = 0.0;
-    Double  radians = 0.0;
-    Double base = 0.0;
-    Double  L = 0.0;
-    DecimalFormat trygonometryczneFormat = new DecimalFormat("#.######");
     boolean mAddition, mSubtract, mMultiplication, mDivision;
     String wynikZEkranu;
 
@@ -119,7 +112,6 @@ public class SimpleCalc extends AppCompatActivity {
                     inputText.setText("0.");
                 else if((inputText.getText() + "").indexOf(".") > 0)
                 {
-
                 }
                 else
                 {
@@ -151,12 +143,14 @@ public class SimpleCalc extends AppCompatActivity {
                     clean_operations();
                     mAddition=true;
                     calculate();
+                    czyBlad();
                 }
 
                 else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mAddition = true;
                     inputText.setText(null);
@@ -171,11 +165,13 @@ public class SimpleCalc extends AppCompatActivity {
                     clean_operations();
                     mSubtract=true;
                     calculate();
+                    czyBlad();
                 }
                 else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mSubtract = true;
                     inputText.setText(null);
@@ -197,6 +193,7 @@ public class SimpleCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mMultiplication = true;
                     inputText.setText(null);
@@ -212,10 +209,12 @@ public class SimpleCalc extends AppCompatActivity {
                     clean_operations();
                     mDivision=true;
                     calculate();
+                    czyBlad();
                 }else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mDivision = true;
                     inputText.setText(null);
@@ -228,6 +227,18 @@ public class SimpleCalc extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 calculate();
+                czyBlad();
+                String str = inputText.getText().toString();
+                if(str.equals("Infinity") || str.equals("-Infinity")){
+                    clean_operations();
+                    clear();
+                    Toast.makeText(getApplicationContext(), "Wystąpił błąd, wygląda na to że liczba jest zbyt duża.!" , Toast.LENGTH_LONG).show();
+                }
+                else if(str.equals("NaN")) {
+                    Toast.makeText(getApplicationContext(), "Not a number!", Toast.LENGTH_LONG).show();
+                }
+                else {
+                }
             }
         });
 
@@ -235,7 +246,7 @@ public class SimpleCalc extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clear();
-                Toast.makeText(getApplicationContext(), "Posprzątano Panie!" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Wyczyszczono" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -324,8 +335,11 @@ public class SimpleCalc extends AppCompatActivity {
     }
 
     private void backspace(){
-        if(!(getinput().isEmpty())){
+        if(!(getinput().isEmpty()) && (inputText.getText().toString().contains("E"))== false &&  (inputText.getText().toString().equals("Infinity"))== false){
             this.inputText.setText(inputText.getText().subSequence(0,inputText.length()-1));
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Liczby zapisanej w ten sposób nie można edytować" , Toast.LENGTH_LONG).show();
         }
     }
 
@@ -344,5 +358,18 @@ public class SimpleCalc extends AppCompatActivity {
         mMultiplication=false;
         mDivision=false;
         mSubtract=false;
+    }
+    public void czyBlad(){
+        String str = inputText.getText().toString();
+        if(str.equals("Infinity") || str.equals("-Infinity")){
+            clean_operations();
+            clear();
+            Toast.makeText(getApplicationContext(), "Wystąpił błąd, wygląda na to że liczba jest zbyt duża.!" , Toast.LENGTH_LONG).show();
+        }
+        else if(str.equals("NaN")) {
+            Toast.makeText(getApplicationContext(), "Not a number!", Toast.LENGTH_LONG).show();
+        }
+        else {
+        }
     }
 }

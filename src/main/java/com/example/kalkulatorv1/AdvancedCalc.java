@@ -159,12 +159,14 @@ public class AdvancedCalc extends AppCompatActivity {
                     clean_operations();
                     mAddition=true;
                     calculate();
+                    czyBlad();
                 }
 
                 else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mAddition = true;
                     inputText.setText(null);
@@ -179,11 +181,13 @@ public class AdvancedCalc extends AppCompatActivity {
                     clean_operations();
                     mSubtract=true;
                     calculate();
+                    czyBlad();
                 }
                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mSubtract = true;
                     inputText.setText(null);
@@ -199,12 +203,14 @@ public class AdvancedCalc extends AppCompatActivity {
                     clean_operations();
                     mMultiplication=true;
                     calculate();
+                    czyBlad();
                 }
 
                 else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mMultiplication = true;
                     inputText.setText(null);
@@ -220,14 +226,15 @@ public class AdvancedCalc extends AppCompatActivity {
                     clean_operations();
                     mDivision=true;
                     calculate();
+                    czyBlad();
                 }else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mDivision = true;
                     inputText.setText(null);
-
                 }
             }
         });
@@ -236,6 +243,7 @@ public class AdvancedCalc extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 calculate();
+                czyBlad();
             }
         });
 
@@ -243,7 +251,7 @@ public class AdvancedCalc extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clear();
-                Toast.makeText(getApplicationContext(), "Posprzątano Panie!" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Wyczyszczono" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -320,6 +328,7 @@ public class AdvancedCalc extends AppCompatActivity {
                     }else{
                         wynik=Math.log(L);
                         inputText.setText(wynik + "");
+                        czyBlad();
                         L=0.0;
                     }
                 }
@@ -340,6 +349,7 @@ public class AdvancedCalc extends AppCompatActivity {
                     }else{
                         wynik=Math.log10(L);
                         inputText.setText(wynik + "");
+                        czyBlad();
                         L=0.0;
                     }
                 }
@@ -361,6 +371,7 @@ public class AdvancedCalc extends AppCompatActivity {
                     }else{
                         wynik=Math.sqrt(base);
                         inputText.setText(wynik + "");
+                        czyBlad();
                         base=0.0;
                     }
                 }
@@ -376,6 +387,7 @@ public class AdvancedCalc extends AppCompatActivity {
                     base = Double.parseDouble(inputText.getText() + "");
                     wynik=Math.pow(base, 2);
                     inputText.setText(wynik + "");
+                    czyBlad();
                     base=0.0;
                 }
             }
@@ -388,6 +400,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
                 }else {
                     calculate();
+                    czyBlad();
                     wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mXpowy = true;
                     inputText.setText(null);
@@ -446,6 +459,7 @@ public class AdvancedCalc extends AppCompatActivity {
         } else {
             wartosc = Double.parseDouble(inputText.getText() + "");
 
+
             if (mAddition == true) {
                 inputText.setText(wynik + wartosc + "");
                 clean_operations();
@@ -479,8 +493,11 @@ public class AdvancedCalc extends AppCompatActivity {
     }
 
     private void backspace(){
-        if(!(getinput().isEmpty())){
+        if(!(getinput().isEmpty()) && (inputText.getText().toString().contains("E"))== false){
             this.inputText.setText(inputText.getText().subSequence(0,inputText.length()-1));
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Liczby zapisanej w ten sposób nie można edytować" , Toast.LENGTH_LONG).show();
         }
     }
 
@@ -500,5 +517,19 @@ public class AdvancedCalc extends AppCompatActivity {
         mDivision=false;
         mSubtract=false;
         mXpowy=false;
+    }
+
+    public void czyBlad(){
+        String str = inputText.getText().toString();
+        if(str.equals("Infinity") || str.equals("-Infinity")){
+            clean_operations();
+            clear();
+            Toast.makeText(getApplicationContext(), "Wystąpił błąd, wygląda na to że liczba jest zbyt duża.!" , Toast.LENGTH_LONG).show();
+        }
+        else if(str.equals("NaN")) {
+            Toast.makeText(getApplicationContext(), "Not a number!", Toast.LENGTH_LONG).show();
+        }
+        else {
+        }
     }
 }

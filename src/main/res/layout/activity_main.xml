@@ -43,7 +43,7 @@
             android:layout_margin="2dp"
             android:layout_weight="1"
             android:background="@color/design_default_color_primary"
-            android:text="NAUKOWY"
+            android:text="ZAAWANSOWANY"
             android:textColor="#E6E6E6"
             android:textSize="30sp" />
 
