@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import android.support.annotation.NonNull;
 import java.lang.reflect.Method;
 
 public class AdvancedCalc extends AppCompatActivity {
@@ -83,27 +83,7 @@ public class AdvancedCalc extends AppCompatActivity {
         this.btn_log=findViewById(R.id.btn_log);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_advanced_calc);
-        initializeButtons();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            inputText.setShowSoftInputOnFocus(false);//wyłączenie klawiatury
-        } else {
-            try {
-                final Method method = EditText.class.getMethod(
-                        "setShowSoftInputOnFocus"
-                        , new Class[]{boolean.class});
-                method.setAccessible(true);
-                method.invoke(inputText, false);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
-
-
+    protected void createButtons(){
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -410,6 +390,51 @@ public class AdvancedCalc extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_advanced_calc);
+        initializeButtons();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            inputText.setShowSoftInputOnFocus(false);//wyłączenie klawiatury
+        } else {
+            try {
+                final Method method = EditText.class.getMethod(
+                        "setShowSoftInputOnFocus"
+                        , new Class[]{boolean.class});
+                method.setAccessible(true);
+                method.invoke(inputText, false);
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+
+        createButtons();
+
+    }
+
+
+
+
+
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putBoolean("mAddition", mAddition);
+        savedInstanceState.putBoolean("mSubtract", mSubtract);
+        savedInstanceState.putBoolean("mDivision", mDivision);
+        savedInstanceState.putBoolean("mMultiplication", mMultiplication);
+        savedInstanceState.putBoolean("mXpowy", mXpowy);
+        savedInstanceState.putDouble("wynik", wynik);
+        savedInstanceState.putDouble("poprzedni_wynik", poprzedni_wynik);
+        savedInstanceState.putDouble("wartosc", wartosc);
+    }
+
     private void calculate(){
         if ((inputText.getText() + "") == "") {
 
@@ -476,5 +501,4 @@ public class AdvancedCalc extends AppCompatActivity {
         mSubtract=false;
         mXpowy=false;
     }
-
 }
