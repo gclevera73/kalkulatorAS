@@ -5,14 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.annotation.NonNull;
 import java.lang.reflect.Method;
 
 public class AdvancedCalc extends AppCompatActivity {
 
-    private EditText inputText;
+    private TextView inputText;
     private Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9;
     private Button btn_dot, btn_c, btn_bksp, btn_pm, btn_mul, btn_div, btn_add, btn_sub, btn_equals, btn_sin, btn_cos, btn_tan, btn_ln, btn_sqrt, btn_power, btn_xpowy, btn_log;
     Double wynik = 0.0;
@@ -24,7 +24,7 @@ public class AdvancedCalc extends AppCompatActivity {
     Double  L = 0.0;
     Double  tmp = 0.0;
     boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
-
+    String wynikZEkranu;
 
     private void initializeButtons(){
         this.inputText = findViewById(R.id.input);
@@ -367,21 +367,8 @@ public class AdvancedCalc extends AppCompatActivity {
 
         setContentView(R.layout.activity_advanced_calc);
         initializeButtons();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            inputText.setShowSoftInputOnFocus(false);//wyłączenie klawiatury
-        } else {
-            try {
-                final Method method = EditText.class.getMethod(
-                        "setShowSoftInputOnFocus"
-                        , new Class[]{boolean.class});
-                method.setAccessible(true);
-                method.invoke(inputText, false);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
 
-       ListenForButtons();
+        ListenForButtons();
 
         if (savedInstanceState == null) {
             this.wartosc=0.0;
@@ -396,6 +383,8 @@ public class AdvancedCalc extends AppCompatActivity {
             this.wynik=savedInstanceState.getDouble("wynik");
             this.poprzedni_wynik=savedInstanceState.getDouble("poprzedni_wynik");
             this.wartosc=savedInstanceState.getDouble("wartosc");
+            this.wynikZEkranu=savedInstanceState.getString("wynikZEkranu");
+            inputText.setText(wynikZEkranu+"");
         }
     }
 
@@ -412,6 +401,8 @@ public class AdvancedCalc extends AppCompatActivity {
         savedInstanceState.putDouble("wynik", wynik);
         savedInstanceState.putDouble("poprzedni_wynik", poprzedni_wynik);
         savedInstanceState.putDouble("wartosc", wartosc);
+        wynikZEkranu=inputText.getText()+"";
+        savedInstanceState.putString("wynikZEkranu", wynikZEkranu);
     }
 
     private void calculate(){
@@ -457,7 +448,7 @@ public class AdvancedCalc extends AppCompatActivity {
 
     private void backspace(){
         if(!(getinput().isEmpty())){
-            this.inputText.getText().delete(getinput().length()-1, getinput().length());
+            this.inputText.setText(inputText.getText().subSequence(0,inputText.length()-1));
         }
     }
 
