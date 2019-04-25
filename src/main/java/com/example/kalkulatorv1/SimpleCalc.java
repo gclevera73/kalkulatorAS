@@ -1,43 +1,31 @@
 package com.example.kalkulatorv1;
 
-import android.os.Build;
+
+import java.text.DecimalFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.support.annotation.NonNull;
 
-import java.lang.reflect.Method;
 
+public class SimpleCalc extends AppCompatActivity {
 
-public class SimpleCalc extends AppCompatActivity{
-    private EditText inputText;
-    private Button btn_0;
-    private Button btn_1;
-    private Button btn_2;
-    private Button btn_3;
-    private Button btn_4;
-    private Button btn_5;
-    private Button btn_6;
-    private Button btn_7;
-    private Button btn_8;
-    private Button btn_9;
-    private Button btn_dot;
-    private Button btn_c;
-    private Button btn_bksp;
-    private Button btn_pm;
-    private Button btn_mul;
-    private Button btn_div;
-    private Button btn_add;
-    private Button btn_sub;
-    private Button btn_equals;
-    float wynik = 0;
-    float wartosc = 0;
-    float  poprzedni_wynik = 0;
-    boolean mAddition, mSubtract, mMultiplication, mDivision, nextClick ;
-    boolean firstOp = false;
-
+    private TextView inputText;
+    private Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9;
+    private Button btn_dot, btn_c, btn_bksp, btn_pm, btn_mul, btn_div, btn_add, btn_sub, btn_equals;
+    Double wynik = 0.0;
+    Double wartosc = 0.0;
+    Double  poprzedni_wynik = 0.0;
+    Double  degrees = 0.0;
+    Double  radians = 0.0;
+    Double base = 0.0;
+    Double  L = 0.0;
+    DecimalFormat trygonometryczneFormat = new DecimalFormat("#.######");
+    boolean mAddition, mSubtract, mMultiplication, mDivision;
+    String wynikZEkranu;
 
     private void initializeButtons(){
         this.inputText = findViewById(R.id.input);
@@ -60,101 +48,67 @@ public class SimpleCalc extends AppCompatActivity{
         this.btn_add=findViewById(R.id.btn_add);
         this.btn_sub=findViewById(R.id.btn_sub);
         this.btn_equals=findViewById(R.id.btn_equals);
-
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_simple_calc);
-        initializeButtons();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            inputText.setShowSoftInputOnFocus(false);//wyłączenie klawiatury
-        } else {
-            try {
-                final Method method = EditText.class.getMethod(
-                        "setShowSoftInputOnFocus"
-                        , new Class[]{boolean.class});
-                method.setAccessible(true);
-                method.invoke(inputText, false);
-            } catch (Exception e) {
-                // ignore
-            }
-        }
-
-
-
-
-
+    protected void ListenForButtons(){
 
         btn_0.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"0");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"0");
             }
         });
 
         btn_1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"1");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"1");
             }
         });
 
         btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"2");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"2");
             }
         });
 
         btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"3");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"3");
             }
         });
 
         btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"4");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"4");
             }
         });
 
         btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"5");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"5");
             }
         });
 
         btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"6");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"6");
             }
         });
 
         btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"7");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"7");
             }
         });
 
         btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"8");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"8");
             }
         });
 
         btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                inputText.setText(inputText.getText()+"9");
+            public void onClick(View v) { inputText.setText(inputText.getText()+"9");
             }
         });
 
@@ -169,17 +123,12 @@ public class SimpleCalc extends AppCompatActivity{
                 }
                 else
                 {
-                    wartosc = Float.parseFloat(inputText.getText() + "");
-                    int i = Math.round(wartosc);
+                    wartosc = Double.parseDouble(inputText.getText() + "");
+                    long i = Math.round(wartosc);
                     inputText.setText(i + ".");
                 }
             }
         });
-
-
-
-//   ||||||||||||||||||||||  FUNKCYJNE |||||||||||||||||||||||||||| ///
-
 
         btn_pm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,26 +137,29 @@ public class SimpleCalc extends AppCompatActivity{
                 if ((inputText.getText() + "") == ""){
 
                 }else {
-                    wynik = Float.parseFloat(inputText.getText() + "");
+                    wynik = Double.parseDouble(inputText.getText() + "");
                     wynik = wynik * (-1);
                     inputText.setText(wynik + "");
                 }
             }
         });
 
-
-
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mSubtract==true || mMultiplication==true || mDivision == true){
+                    clean_operations();
+                    mAddition=true;
+                    calculate();
+                }
+
+                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mAddition = true;
                     inputText.setText(null);
-
                 }
             }
         });
@@ -215,11 +167,16 @@ public class SimpleCalc extends AppCompatActivity{
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mMultiplication==true || mDivision == true){
+                    clean_operations();
+                    mSubtract=true;
+                    calculate();
+                }
+                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mSubtract = true;
                     inputText.setText(null);
 
@@ -227,15 +184,20 @@ public class SimpleCalc extends AppCompatActivity{
             }
         });
 
-
         btn_mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mSubtract==true || mDivision == true){
+                    clean_operations();
+                    mMultiplication=true;
+                    calculate();
+                }
+
+                else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mMultiplication = true;
                     inputText.setText(null);
 
@@ -246,11 +208,15 @@ public class SimpleCalc extends AppCompatActivity{
         btn_div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((inputText.getText() + "") == ""){
+                if(mAddition==true || mMultiplication==true || mSubtract == true){
+                    clean_operations();
+                    mDivision=true;
+                    calculate();
+                }else if ((inputText.getText() + "") == ""){
 
                 }else {
                     calculate();
-                    wynik = Float.parseFloat(inputText.getText() + "") + poprzedni_wynik;
+                    wynik = Double.parseDouble(inputText.getText() + "") + poprzedni_wynik;
                     mDivision = true;
                     inputText.setText(null);
 
@@ -280,20 +246,60 @@ public class SimpleCalc extends AppCompatActivity{
             }
         });
 
+    }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_simple_calc);
+        initializeButtons();
+
+        ListenForButtons();
+
+        if (savedInstanceState == null) {
+            this.wartosc=0.0;
+            this.poprzedni_wynik=0.0;
+            this.wartosc=0.0;
+        } else {
+            this.mAddition=savedInstanceState.getBoolean("mAddition");
+            this.mSubtract=savedInstanceState.getBoolean("mSubtract");
+            this.mMultiplication=savedInstanceState.getBoolean("mMultiplication");
+            this.mDivision=savedInstanceState.getBoolean("mDivision");
+            this.wynik=savedInstanceState.getDouble("wynik");
+            this.poprzedni_wynik=savedInstanceState.getDouble("poprzedni_wynik");
+            this.wartosc=savedInstanceState.getDouble("wartosc");
+            this.wynikZEkranu=savedInstanceState.getString("wynikZEkranu");
+            inputText.setText(wynikZEkranu+"");
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
+
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean("mAddition", mAddition);
+        savedInstanceState.putBoolean("mSubtract", mSubtract);
+        savedInstanceState.putBoolean("mDivision", mDivision);
+        savedInstanceState.putBoolean("mMultiplication", mMultiplication);
+        savedInstanceState.putDouble("wynik", wynik);
+        savedInstanceState.putDouble("poprzedni_wynik", poprzedni_wynik);
+        savedInstanceState.putDouble("wartosc", wartosc);
+        wynikZEkranu=inputText.getText()+"";
+        savedInstanceState.putString("wynikZEkranu", wynikZEkranu);
     }
 
     private void calculate(){
         if ((inputText.getText() + "") == "") {
 
         } else {
-            wartosc = Float.parseFloat(inputText.getText() + "");
+            wartosc = Double.parseDouble(inputText.getText() + "");
 
             if (mAddition == true) {
                 inputText.setText(wynik + wartosc + "");
                 clean_operations();
             }
-
 
             if (mSubtract == true) {
                 inputText.setText(wynik - wartosc + "");
@@ -313,28 +319,25 @@ public class SimpleCalc extends AppCompatActivity{
                     inputText.setText(wynik / wartosc + "");
                     clean_operations();
                 }
-
             }
         }
     }
 
     private void backspace(){
         if(!(getinput().isEmpty())){
-            this.inputText.getText().delete(getinput().length()-1, getinput().length());
+            this.inputText.setText(inputText.getText().subSequence(0,inputText.length()-1));
         }
     }
 
     private void clear(){
-        wynik = 0;
-        poprzedni_wynik=0;
+        wynik = 0.0;
+        poprzedni_wynik=0.0;
         inputText.setText("");
     }
-
 
     private String getinput(){
         return this.inputText.getText().toString();
     }
-
 
     public void clean_operations(){
         mAddition=false;
@@ -342,5 +345,4 @@ public class SimpleCalc extends AppCompatActivity{
         mDivision=false;
         mSubtract=false;
     }
-
 }
