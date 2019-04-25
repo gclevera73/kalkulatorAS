@@ -1,6 +1,7 @@
 package com.example.kalkulatorv1;
 
 import android.os.Build;
+import java.text.DecimalFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,8 @@ public class AdvancedCalc extends AppCompatActivity {
     Double base = 0.0;
     Double  L = 0.0;
     Double  tmp = 0.0;
+    DecimalFormat trygonometryczneFormat = new DecimalFormat("#.######");
+    DecimalFormat formatWyswietlania = new DecimalFormat("#.########");
     boolean mAddition, mSubtract, mMultiplication, mDivision, mSin, mCos, mTan, mLn, mSqrt, mPower, mXpowy, mLog ;
     String wynikZEkranu;
 
@@ -261,8 +264,9 @@ public class AdvancedCalc extends AppCompatActivity {
                 }else {
                     degrees = Double.parseDouble(inputText.getText() + "");
                     radians = degrees * Math.PI / 180;
+
                     wynik=Math.sin(radians);
-                    inputText.setText(wynik + "");
+                    inputText.setText((trygonometryczneFormat.format(wynik) + "").replaceAll(",","."));
                     degrees=0.0;
                     radians=0.0;
                 }
@@ -278,8 +282,9 @@ public class AdvancedCalc extends AppCompatActivity {
                     degrees = Double.parseDouble(inputText.getText() + "");
                     radians = Math.toRadians(degrees);
 
+
                     wynik=Math.cos(radians);
-                    inputText.setText(wynik + "");
+                    inputText.setText((trygonometryczneFormat.format(wynik) + "").replaceAll(",","."));
                     degrees=0.0;
                     radians=0.0;
                 }
@@ -296,7 +301,7 @@ public class AdvancedCalc extends AppCompatActivity {
                     radians = Math.toRadians(degrees);
 
                     wynik=Math.tan(radians);
-                    inputText.setText(wynik + "");
+                    inputText.setText((trygonometryczneFormat.format(wynik) + "").replaceAll(",","."));
                     degrees=0.0;
                     radians=0.0;
                 }
@@ -416,7 +421,6 @@ public class AdvancedCalc extends AppCompatActivity {
                 clean_operations();
             }
 
-
             if (mSubtract == true) {
                 inputText.setText(wynik - wartosc + "");
                 clean_operations();
@@ -427,7 +431,6 @@ public class AdvancedCalc extends AppCompatActivity {
                 clean_operations();
             }
 
-
             if (mDivision == true) {
                 if(wartosc == 0){
                     Toast.makeText(getApplicationContext(), "Kto dzieli przez zero ten traci szacunek bo jest to niewykonalny rachunek !!!" , Toast.LENGTH_LONG).show();
@@ -436,7 +439,6 @@ public class AdvancedCalc extends AppCompatActivity {
                     inputText.setText(wynik / wartosc + "");
                     clean_operations();
                 }
-
             }
 
             if (mXpowy == true) {
